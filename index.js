@@ -7,12 +7,18 @@ const pdf = require('pdf-parse');
 
 const app = express();
 app.use(express.json());
-app.use(cors());
+app.use(cors({
+    origin: "*", // Update to your frontend URL
+    methods: ["POST", "GET","PUT","DELETE"],
+    credentials: true
+  }));
 
 const PORT = process.env.PORT || 3000;
 // Multer configuration for handling file uploads
 const upload = multer();
-
+app.get('/',(req,res)=>{
+    res.send("this working");
+})
 app.post('/upload-pdf', upload.single('pdfFile'), async (req, res) => {
     if (!req.file) {
         return res.status(400).send('No file uploaded.');
